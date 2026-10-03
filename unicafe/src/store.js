@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { useShallow } from 'zustand/react/shallow'
 
 const useStatisticsStore = create((set) => ({
   good: 0,
@@ -12,6 +13,8 @@ const useStatisticsStore = create((set) => ({
 }))
 
 export const useValues = () =>
-  useStatisticsStore((state) => ({ good: state.good, bad: state.bad, neutral: state.neutral }))
+  useStatisticsStore(
+    useShallow((state) => ({ good: state.good, bad: state.bad, neutral: state.neutral })),
+  )
 
 export const useStatisticsControls = () => useStatisticsStore((state) => state.actions)
