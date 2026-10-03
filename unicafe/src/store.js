@@ -7,12 +7,12 @@ const useStatisticsStore = create((set) => ({
   neutral: 0,
   actions: {
     handleGood: () => set((state) => ({ good: state.good + 1 })),
-    handlebad: () => set((state) => ({ bad: state.bad + 1 })),
+    handleBad: () => set((state) => ({ bad: state.bad + 1 })),
     handleNeutral: () => set((state) => ({ neutral: state.neutral + 1 })),
   },
 }))
 
-export const useValues = () =>
+export const useStatisticsValues = () =>
   useStatisticsStore(
     useShallow((state) => ({ good: state.good, bad: state.bad, neutral: state.neutral })),
   )
