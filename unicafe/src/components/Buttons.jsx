@@ -2,7 +2,6 @@ import { useStatisticsControls } from '../store'
 
 const Buttons = () => {
   const { handleGood, handleBad, handleNeutral } = useStatisticsControls()
-
   return (
     <div>
       <h2>give feedback</h2>
