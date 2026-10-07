@@ -43,6 +43,8 @@ const useNotificationStore = create((set) => ({
   },
 }))
 
+export default useAnecdoteStore
+
 export const useMessage = () => useNotificationStore((state) => state.message)
 export const useNotificationActions = () => useNotificationStore((state) => state.actions)
 
@@ -50,8 +52,9 @@ export const useAnecdotes = () => {
   const anecdotes = useAnecdoteStore((state) => state.anecdotes)
   const filter = useAnecdoteStore((state) => state.filter)
 
-  return anecdotes.filter((anecdote) =>
+  const filteredAnecdotes = anecdotes.filter((anecdote) =>
     anecdote.content.toLowerCase().includes(filter.toLowerCase()),
   )
+  return filteredAnecdotes.toSorted((a, b) => b.votes - a.votes)
 }
 export const useAnecdotesActions = () => useAnecdoteStore((state) => state.actions)
