@@ -1,4 +1,5 @@
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
+import { useNotication } from './hooks/useNotification'
 
 const baseUrl = 'http://localhost:3001/anecdotes'
 
@@ -42,6 +43,7 @@ const update = async (anecdote) => {
 
 export const useAnecdotes = () => {
   const queryClient = useQueryClient()
+  const { updateNotification } = useNotication()
 
   const result = useQuery({
     queryKey: ['anecdotes'],
@@ -55,6 +57,10 @@ export const useAnecdotes = () => {
     onSuccess: (createdAnecdote) => {
       const anecdotes = queryClient.getQueryData(['anecdotes'])
       queryClient.setQueryData(['anecdotes'], anecdotes.concat(createdAnecdote))
+      updateNotification(`a new anecdote: ${createdAnecdote.content} was created`)
+    },
+    onError: () => {
+      updateNotification('too short anecdote, must have length 5 or more')
     },
   })
 
@@ -66,6 +72,10 @@ export const useAnecdotes = () => {
         ['anecdotes'],
         anecdotes.map((x) => (x.id === updatedAnectode.id ? updatedAnectode : x)),
       )
+      updateNotification(`${updatedAnectode.content} voted`)
+    },
+    onError: (error) => {
+      updateNotification(error.message)
     },
   })
 
