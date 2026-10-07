@@ -16,13 +16,9 @@ const AnecdoteList = () => {
   const handleDelete = (id) => {
     removeAnecdote(id)
   }
-
-  const anecdotesSorted = anecdotes.toSorted(
-    (anecdote1, anecdote2) => anecdote2.votes - anecdote1.votes,
-  )
   return (
     <>
-      {anecdotesSorted.map((anecdote) => (
+      {anecdotes.map((anecdote) => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
           <div>
