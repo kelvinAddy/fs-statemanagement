@@ -1,25 +1,30 @@
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
+import { useAnecdotes } from './requests'
 
 const App = () => {
+  const { result, createAnecdote, addVote } = useAnecdotes()
+
   const handleVote = (anecdote) => {
-    console.log('vote')
+    addVote(anecdote)
   }
 
-  const anecdotes = [
-    {
-      content: 'If it hurts, do it more often',
-      id: '47145',
-      votes: 0,
-    },
-  ]
+  if (result.isPending) {
+    return <span>Loading...</span>
+  }
+
+  if (result.error) {
+    return <span>anecdote service not available due to problems in server</span>
+  }
+
+  const anecdotes = result.data
 
   return (
     <div>
       <h3>Anecdote app</h3>
 
       <Notification />
-      <AnecdoteForm />
+      <AnecdoteForm createAnecdote={createAnecdote} />
 
       {anecdotes.map((anecdote) => (
         <div key={anecdote.id}>
